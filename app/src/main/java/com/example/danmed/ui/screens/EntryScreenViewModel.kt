@@ -37,12 +37,6 @@ class EntryScreenViewModel @Inject constructor(
         )
 
     data class EntryState(
-//        val medicine: Medicine = Medicine(
-//            name = "",
-//            description = "",
-//            amount = 0,
-//            price = 0
-//        )
         val name: String = "",
         val description: String = "",
         val amount: String = "",
