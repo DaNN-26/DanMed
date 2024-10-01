@@ -27,7 +27,6 @@ fun MedicineNavHost(
         composable(route = StartDestination.route) {
             val startViewModel = hiltViewModel<StartScreenViewModel>()
             StartScreen(
-                viewModel = startViewModel,
                 uiState = startViewModel.uiState.collectAsState(),
                 navigateToEntry = { navController.navigate(EntryDestination.route) }
             )
