@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.example.danmed.db.MedicineDatabase
 import com.example.danmed.db.data.repository.MedicineRepositoryImpl
-import com.example.danmed.db.domain.model.Medicine
 import com.example.danmed.db.domain.repository.MedicineDao
 import com.example.danmed.db.domain.repository.MedicineRepository
 import dagger.Module

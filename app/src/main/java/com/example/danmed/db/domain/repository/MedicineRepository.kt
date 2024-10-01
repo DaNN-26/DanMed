@@ -1,7 +1,6 @@
 package com.example.danmed.db.domain.repository
 
 import com.example.danmed.db.domain.model.Medicine
-import dagger.Provides
 import kotlinx.coroutines.flow.Flow
 
 interface MedicineRepository {
