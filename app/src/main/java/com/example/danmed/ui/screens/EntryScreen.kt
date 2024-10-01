@@ -2,6 +2,7 @@ package com.example.danmed.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -10,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -21,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.danmed.MedicineTopAppBar
 import com.example.danmed.ui.navigation.NavigationDestination
 
 object EntryDestination : NavigationDestination {
@@ -32,15 +35,25 @@ object EntryDestination : NavigationDestination {
 fun EntryScreen(
     viewModel: EntryScreenViewModel,
     uiState: State<EntryScreenViewModel.EntryState>,
-    navigateBack: () -> Unit,
-    modifier: Modifier = Modifier,
+    navigateBack: () -> Unit
 ) {
-    EntryBody(
-        viewModel = viewModel,
-        uiState = uiState,
-        navigateBack = navigateBack,
-        onValueChange = viewModel::updateUiState
-    )
+    Scaffold(
+        topBar = {
+            MedicineTopAppBar(
+                title = EntryDestination.title,
+                canNavigateBack = true,
+                navigateBack = navigateBack
+            )
+        }
+    ) {
+        EntryBody(
+            viewModel = viewModel,
+            uiState = uiState,
+            navigateBack = navigateBack,
+            onValueChange = viewModel::updateUiState,
+            contentPadding = it
+        )
+    }
 }
 
 @Composable
@@ -48,12 +61,15 @@ fun EntryBody(
     viewModel: EntryScreenViewModel,
     uiState: State<EntryScreenViewModel.EntryState>,
     navigateBack: () -> Unit,
-    onValueChange: (EntryScreenViewModel.EntryState) -> Unit
+    onValueChange: (EntryScreenViewModel.EntryState) -> Unit,
+    contentPadding: PaddingValues
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(contentPadding)
     ) {
         Text(
             text = "Добавление\nнового лекарства",
