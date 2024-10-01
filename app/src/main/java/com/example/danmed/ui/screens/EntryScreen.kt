@@ -6,52 +6,39 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.rounded.Create
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.danmed.db.domain.model.Medicine
-import com.example.danmed.di.AppModule
+import com.example.danmed.ui.navigation.NavigationDestination
+
+object EntryDestination : NavigationDestination {
+    override val route = "entry"
+    override val title = "Добавление лекарства"
+}
 
 @Composable
 fun EntryScreen(
-    viewModel: EntryScreenViewModel = EntryScreenViewModel(
-        AppModule.provideMedicineRepository(
-            AppModule.provideMedicineDao(
-                AppModule.provideMedicineDatabase(
-                    LocalContext.current
-                )
-            )
-        )
-    ),
-    uiState: State<EntryScreenViewModel.EntryState> =
-        viewModel.uiState.collectAsState(),
+    viewModel: EntryScreenViewModel,
+    uiState: State<EntryScreenViewModel.EntryState>,
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     EntryBody(
         viewModel = viewModel,
         uiState = uiState,
+        navigateBack = navigateBack,
         onValueChange = viewModel::updateUiState
     )
 }
@@ -60,6 +47,7 @@ fun EntryScreen(
 fun EntryBody(
     viewModel: EntryScreenViewModel,
     uiState: State<EntryScreenViewModel.EntryState>,
+    navigateBack: () -> Unit,
     onValueChange: (EntryScreenViewModel.EntryState) -> Unit
 ) {
     Column(
@@ -77,7 +65,10 @@ fun EntryBody(
         Spacer(modifier = Modifier.height(16.dp))
         EntryForm(uiState, onValueChange)
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = { viewModel.insertMedicine() }) {
+        Button(onClick = {
+            viewModel.insertMedicine()
+            navigateBack()
+        }) {
             Text(
                 text = "Добавить",
                 fontSize = 20.sp,

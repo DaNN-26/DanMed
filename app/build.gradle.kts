@@ -54,6 +54,7 @@ android {
 
 val roomVersion = "2.6.1"
 val hilt = "2.51.1"
+val navVersion = "2.8.1"
 
 dependencies {
 
@@ -65,6 +66,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -81,6 +83,10 @@ dependencies {
     // hilt
     implementation("com.google.dagger:hilt-android:$hilt")
     kapt("com.google.dagger:hilt-android-compiler:$hilt")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // navigation
+    implementation("androidx.navigation:navigation-compose:$navVersion")
 }
 
 kapt {
