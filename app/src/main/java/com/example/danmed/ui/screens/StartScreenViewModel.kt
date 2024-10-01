@@ -1,7 +1,6 @@
 package com.example.danmed.ui.screens
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.danmed.db.domain.model.Medicine
@@ -11,8 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,12 +30,6 @@ class StartScreenViewModel @Inject constructor(
             repository.getAllMedicines().collect { items ->
                 _uiState.value = StartState(medicineItems = items)
             }
-        }
-    }
-
-    fun insertNewMedicine(medicine: Medicine) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertNewMedicine(medicine)
         }
     }
 
