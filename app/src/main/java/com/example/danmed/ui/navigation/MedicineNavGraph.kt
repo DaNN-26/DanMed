@@ -7,6 +7,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.danmed.ui.screens.DetailsDestination
+import com.example.danmed.ui.screens.DetailsScreen
+import com.example.danmed.ui.screens.DetailsScreenViewModel
 import com.example.danmed.ui.screens.EntryDestination
 import com.example.danmed.ui.screens.EntryScreen
 import com.example.danmed.ui.screens.EntryScreenViewModel
@@ -28,7 +31,11 @@ fun MedicineNavHost(
             val startViewModel = hiltViewModel<StartScreenViewModel>()
             StartScreen(
                 uiState = startViewModel.uiState.collectAsState(),
-                navigateToEntry = { navController.navigate(EntryDestination.route) }
+                navigateToEntry = { navController.navigate(EntryDestination.route) },
+                navigateToDetails = { id ->
+                    navController.navigate(DetailsDestination.route)
+                    DetailsDestination.argId = id
+                }
             )
         }
         composable(route = EntryDestination.route) {
@@ -36,6 +43,14 @@ fun MedicineNavHost(
             EntryScreen(
                 viewModel = entryViewModel,
                 uiState = entryViewModel.uiState.collectAsState(),
+                navigateBack = { navController.popBackStack() }
+            )
+        }
+        composable(route = DetailsDestination.route) {
+            val detailsViewModel = hiltViewModel<DetailsScreenViewModel>()
+            DetailsScreen(
+                viewModel = detailsViewModel,
+                uiState = detailsViewModel.uiState.collectAsState(),
                 navigateBack = { navController.popBackStack() }
             )
         }

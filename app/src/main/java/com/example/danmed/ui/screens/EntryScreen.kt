@@ -69,6 +69,7 @@ fun EntryBody(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
+            .padding(60.dp)
             .padding(contentPadding)
     ) {
         Text(
@@ -81,10 +82,17 @@ fun EntryBody(
         Spacer(modifier = Modifier.height(16.dp))
         EntryForm(uiState, onValueChange)
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = {
-            viewModel.insertMedicine()
-            navigateBack()
-        }) {
+        Button(
+            onClick = {
+                viewModel.insertMedicine()
+                navigateBack()
+            },
+            enabled = if (uiState.value.name == "") false
+            else if (uiState.value.description == "") false
+            else if (uiState.value.amount == "") false
+            else if (uiState.value.price == "") false
+            else true
+        ) {
             Text(
                 text = "Добавить",
                 fontSize = 20.sp,
@@ -118,8 +126,9 @@ fun EntryForm(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next
             ),
+            maxLines = 4,
             enabled = true,
-            singleLine = true
+            singleLine = false
         )
         Spacer(modifier = Modifier.height(12.dp))
         OutlinedTextField(

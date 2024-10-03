@@ -39,6 +39,7 @@ object StartDestination : NavigationDestination {
 @Composable
 fun StartScreen(
     navigateToEntry: () -> Unit,
+    navigateToDetails: (Int) -> Unit,
     uiState: State<StartScreenViewModel.StartState>
 ) {
     Scaffold(
@@ -66,6 +67,7 @@ fun StartScreen(
     ){
         StartBody(
             uiState = uiState,
+            navigateToDetails = navigateToDetails,
             contentPadding = it
         )
     }
@@ -73,6 +75,7 @@ fun StartScreen(
 @Composable
 fun StartBody(
     uiState: State<StartScreenViewModel.StartState>,
+    navigateToDetails: (Int) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -87,8 +90,12 @@ fun StartBody(
             contentPadding = contentPadding,
             modifier = modifier.fillMaxSize()
         ) {
-            items(uiState.value.medicineItems) {
-                MedicineItem(it, Modifier.padding(3.dp))
+            items(uiState.value.medicineItems) { medicine ->
+                MedicineItem(
+                    medicine = medicine,
+                    navigateToDetails = navigateToDetails,
+                    modifier = Modifier.padding(3.dp)
+                )
             }
         }
     }
@@ -98,10 +105,11 @@ fun StartBody(
 @Composable
 fun MedicineItem(
     medicine: Medicine,
+    navigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = {  },
+        onClick = { navigateToDetails(medicine.id) },
         elevation = CardDefaults.elevatedCardElevation(4.dp),
         modifier = Modifier.padding(6.dp)
     ) {
@@ -120,7 +128,7 @@ fun MedicineItem(
             modifier = modifier
         )
         Text(
-            text = "${medicine.price} руб.",
+            text = "${medicine.price} ₽",
             fontWeight = FontWeight.Light,
             fontSize = 16.sp,
             modifier = modifier
