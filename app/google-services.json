@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "101528561452",
+    "project_id": "danmed-6ac69",
+    "storage_bucket": "danmed-6ac69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101528561452:android:eae0aa7c5a9a1b4f3f6e89",
+        "android_client_info": {
+          "package_name": "com.example.danmed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhj1jiaPUGSwr-_Ksyb31RcHd1lNAjMSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

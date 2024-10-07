@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens
+package com.example.danmed.ui.screens.entryScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,31 +23,30 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.danmed.MedicineTopAppBar
 import com.example.danmed.ui.navigation.NavigationDestination
+import com.example.danmed.ui.screens.components.MedicineTopAppBar
 
-object EditDestination : NavigationDestination {
-    override val route = "edit"
-    override val title = "Редактирование"
-    var argId = 0
+object EntryDestination : NavigationDestination {
+    override val route = "entry"
+    override val title = "Добавление"
 }
 
 @Composable
-fun EditScreen(
-    viewModel: EditScreenViewModel,
-    uiState: State<EditScreenViewModel.EditState>,
+fun EntryScreen(
+    viewModel: EntryScreenViewModel,
+    uiState: State<EntryScreenViewModel.EntryState>,
     navigateBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
             MedicineTopAppBar(
-                title = EditDestination.title,
+                title = EntryDestination.title,
                 canNavigateBack = true,
                 navigateBack = navigateBack
             )
         }
     ) {
-        EditBody(
+        EntryBody(
             viewModel = viewModel,
             uiState = uiState,
             navigateBack = navigateBack,
@@ -58,11 +57,11 @@ fun EditScreen(
 }
 
 @Composable
-fun EditBody(
-    viewModel: EditScreenViewModel,
-    uiState: State<EditScreenViewModel.EditState>,
+fun EntryBody(
+    viewModel: EntryScreenViewModel,
+    uiState: State<EntryScreenViewModel.EntryState>,
     navigateBack: () -> Unit,
-    onValueChange: (EditScreenViewModel.EditState) -> Unit,
+    onValueChange: (EntryScreenViewModel.EntryState) -> Unit,
     contentPadding: PaddingValues
 ) {
     Column(
@@ -74,18 +73,18 @@ fun EditBody(
             .padding(contentPadding)
     ) {
         Text(
-            text = "Редактирование\nлекарства",
+            text = "Добавление\nнового лекарства",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             fontSize = 28.sp,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
-        EditForm(uiState, onValueChange)
+        EntryForm(uiState, onValueChange)
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
-                viewModel.updateMedicine()
+                viewModel.insertMedicine()
                 navigateBack()
             },
             enabled = if (uiState.value.name == "") false
@@ -95,19 +94,18 @@ fun EditBody(
             else true
         ) {
             Text(
-                text = "Редактировать",
+                text = "Добавить",
                 fontSize = 20.sp,
                 modifier = Modifier.padding(8.dp)
             )
         }
-        Spacer(modifier = Modifier.height(6.dp))
     }
 }
 
 @Composable
-fun EditForm(
-    uiState: State<EditScreenViewModel.EditState>,
-    onValueChange: (EditScreenViewModel.EditState) -> Unit
+fun EntryForm(
+    uiState: State<EntryScreenViewModel.EntryState>,
+    onValueChange: (EntryScreenViewModel.EntryState) -> Unit
 ) {
     Column {
         OutlinedTextField(

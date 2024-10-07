@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens
+package com.example.danmed.ui.screens.detailsScreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.spring
@@ -37,8 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.danmed.MedicineTopAppBar
 import com.example.danmed.ui.navigation.NavigationDestination
+import com.example.danmed.ui.screens.components.MedicineTopAppBar
 
 object DetailsDestination : NavigationDestination {
     override val route = "details"

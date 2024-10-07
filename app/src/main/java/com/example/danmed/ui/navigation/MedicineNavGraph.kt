@@ -7,18 +7,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.danmed.ui.screens.DetailsDestination
-import com.example.danmed.ui.screens.DetailsScreen
-import com.example.danmed.ui.screens.DetailsScreenViewModel
-import com.example.danmed.ui.screens.EditDestination
-import com.example.danmed.ui.screens.EditScreen
-import com.example.danmed.ui.screens.EditScreenViewModel
-import com.example.danmed.ui.screens.EntryDestination
-import com.example.danmed.ui.screens.EntryScreen
-import com.example.danmed.ui.screens.EntryScreenViewModel
-import com.example.danmed.ui.screens.StartDestination
-import com.example.danmed.ui.screens.StartScreen
-import com.example.danmed.ui.screens.StartScreenViewModel
+import com.example.danmed.ui.screens.editScreen.EditDestination
+import com.example.danmed.ui.screens.editScreen.EditScreen
+import com.example.danmed.ui.screens.editScreen.EditScreenViewModel
+import com.example.danmed.ui.screens.entryScreen.EntryDestination
+import com.example.danmed.ui.screens.entryScreen.EntryScreen
+import com.example.danmed.ui.screens.entryScreen.EntryScreenViewModel
+import com.example.danmed.ui.screens.startScreen.StartDestination
+import com.example.danmed.ui.screens.startScreen.StartScreen
+import com.example.danmed.ui.screens.startScreen.StartScreenViewModel
+import com.example.danmed.ui.screens.detailsScreen.DetailsDestination
+import com.example.danmed.ui.screens.detailsScreen.DetailsScreen
+import com.example.danmed.ui.screens.detailsScreen.DetailsScreenViewModel
 
 @Composable
 fun MedicineNavHost(

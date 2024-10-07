@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens
+package com.example.danmed.ui.screens.startScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,9 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.danmed.MedicineTopAppBar
 import com.example.danmed.db.domain.model.Medicine
 import com.example.danmed.ui.navigation.NavigationDestination
+import com.example.danmed.ui.screens.components.MedicineTopAppBar
 
 object StartDestination : NavigationDestination {
     override val route = "start"

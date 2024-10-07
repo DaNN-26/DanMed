@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.danmed" />
+                  <option name="mobileSdkAppId" value="1:101528561452:android:eae0aa7c5a9a1b4f3f6e89" />
+                  <option name="projectId" value="danmed-6ac69" />
+                  <option name="projectNumber" value="101528561452" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -1,6 +1,5 @@
-package com.example.danmed.ui.screens
+package com.example.danmed.ui.screens.startScreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.danmed.db.domain.model.Medicine
