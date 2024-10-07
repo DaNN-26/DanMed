@@ -22,7 +22,6 @@ class StartScreenViewModel @Inject constructor(
 
     init {
         getAllMedicines()
-        Log.d("Error", "${uiState.value.medicineItems.size}")
     }
 
     private fun getAllMedicines() {

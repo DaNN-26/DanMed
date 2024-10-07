@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,6 +54,8 @@ fun StartScreen(
             FloatingActionButton(
                 onClick = navigateToEntry,
                 shape = RoundedCornerShape(38.dp),
+                containerColor = Color(72, 111, 126),
+                contentColor = Color(211, 237, 247),
                 modifier = Modifier
                     .padding(12.dp)
                     .size(86.dp)
@@ -111,6 +114,7 @@ fun MedicineItem(
     Card(
         onClick = { navigateToDetails(medicine.id) },
         elevation = CardDefaults.elevatedCardElevation(4.dp),
+        colors = CardDefaults.cardColors(Color(211, 242, 254 )),
         modifier = Modifier.padding(6.dp)
     ) {
         Text(
@@ -118,20 +122,20 @@ fun MedicineItem(
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyMedium,
             fontSize = 18.sp,
-            modifier = modifier
+            modifier = modifier.padding(horizontal = 4.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "${medicine.amount} шт.",
             fontWeight = FontWeight.Light,
             fontSize = 16.sp,
-            modifier = modifier
+            modifier = modifier.padding(horizontal = 4.dp)
         )
         Text(
             text = "${medicine.price} ₽",
             fontWeight = FontWeight.Light,
             fontSize = 16.sp,
-            modifier = modifier
+            modifier = modifier.padding(horizontal = 4.dp)
         )
     }
 }

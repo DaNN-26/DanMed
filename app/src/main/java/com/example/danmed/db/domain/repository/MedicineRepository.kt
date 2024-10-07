@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface MedicineRepository {
     suspend fun getAllMedicines() : Flow<List<Medicine>>
 
+    suspend fun getAvailableMedicines(): Flow<List<Medicine>>
+
     suspend fun getMedicine(id: Int) : Flow<Medicine>
 
     suspend fun updateMedicine(medicine: Medicine)

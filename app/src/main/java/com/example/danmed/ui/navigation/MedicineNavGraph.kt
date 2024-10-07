@@ -10,6 +10,9 @@ import androidx.navigation.compose.composable
 import com.example.danmed.ui.screens.DetailsDestination
 import com.example.danmed.ui.screens.DetailsScreen
 import com.example.danmed.ui.screens.DetailsScreenViewModel
+import com.example.danmed.ui.screens.EditDestination
+import com.example.danmed.ui.screens.EditScreen
+import com.example.danmed.ui.screens.EditScreenViewModel
 import com.example.danmed.ui.screens.EntryDestination
 import com.example.danmed.ui.screens.EntryScreen
 import com.example.danmed.ui.screens.EntryScreenViewModel
@@ -51,6 +54,18 @@ fun MedicineNavHost(
             DetailsScreen(
                 viewModel = detailsViewModel,
                 uiState = detailsViewModel.uiState.collectAsState(),
+                navigateBack = { navController.popBackStack() },
+                navigateToEdit = { id ->
+                    navController.navigate(EditDestination.route)
+                    EditDestination.argId = id
+                }
+            )
+        }
+        composable(route = EditDestination.route) {
+            val editViewModel = hiltViewModel<EditScreenViewModel>()
+            EditScreen(
+                viewModel = editViewModel,
+                uiState = editViewModel.uiState.collectAsState(),
                 navigateBack = { navController.popBackStack() }
             )
         }

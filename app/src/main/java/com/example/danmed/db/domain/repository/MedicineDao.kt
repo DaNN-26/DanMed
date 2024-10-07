@@ -25,4 +25,7 @@ interface MedicineDao {
 
     @Query("SELECT * from medicines ORDER BY name ASC")
     fun getAllMedicines(): Flow<List<Medicine>>
+
+    @Query("SELECT * from medicines WHERE amount > 0")
+    fun getAvailableMedicines(): Flow<List<Medicine>>
 }
