@@ -1,11 +1,15 @@
 package com.example.danmed.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.danmed.MedicineTopAppBar
@@ -57,61 +62,12 @@ fun DetailsScreen(
             )
         },
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = uiState.value.showButtons,
-                enter = slideInVertically()
-            ) {
-                Row {
-                    FloatingActionButton(
-                        onClick = { navigateToEdit(uiState.value.medicine.id) },
-                        shape = RoundedCornerShape(38.dp),
-                        containerColor = Color(72, 111, 126),
-                        contentColor = Color(211, 237, 247),
-                        modifier = Modifier
-                            .padding(6.dp)
-                            .size(86.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Create,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp)
-                        )
-                    }
-                    FloatingActionButton(
-                        onClick = {
-                            viewModel.updateOpenDialog(true)
-                        },
-                        shape = RoundedCornerShape(38.dp),
-                        containerColor = Color(72, 111, 126),
-                        contentColor = Color(211, 237, 247),
-                        modifier = Modifier
-                            .padding(6.dp)
-                            .size(86.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp)
-                        )
-                    }
-                }
-            }
-            if(!uiState.value.showButtons)
-                FloatingActionButton(
-                    onClick = { viewModel.updateShowButtons(true) },
-                    shape = RoundedCornerShape(38.dp),
-                    containerColor = Color(72, 111, 126),
-                    contentColor = Color(211, 237, 247),
-                    modifier = Modifier
-                        .padding(6.dp)
-                        .size(86.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = null,
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
+            AnimatedFloatingButtons(
+                uiState = uiState,
+                navigateToEdit = navigateToEdit,
+                updateShowButtons = viewModel::updateShowButtons,
+                updateOpenDialog = viewModel::updateOpenDialog
+            )
         }
     ) {
         DetailsBody(
@@ -220,4 +176,72 @@ fun DeleteConfirmDialogueBox(
                 " Элемент удалится навсегда без возможности возврата.") },
 
         )
+}
+
+@Composable
+fun AnimatedFloatingButtons(
+    uiState: State<DetailsScreenViewModel.DetailsState>,
+    navigateToEdit: (Int) -> Unit,
+    updateShowButtons: (Boolean) -> Unit,
+    updateOpenDialog: (Boolean) -> Unit
+) {
+    Column {
+        AnimatedVisibility(
+            visible = uiState.value.showButtons,
+            enter = slideIn(spring(0.9f)) {
+                IntOffset(2000, 0)
+            } + fadeIn(tween(300)),
+            exit = slideOut(tween(1000)) {
+                IntOffset(2000, 0)
+            } + fadeOut(tween(300))
+        ) {
+            Column {
+                FloatingActionButton(
+                    onClick = { navigateToEdit(uiState.value.medicine.id) },
+                    shape = RoundedCornerShape(38.dp),
+                    containerColor = Color(72, 111, 126),
+                    contentColor = Color(211, 237, 247),
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .size(86.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Create,
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+                FloatingActionButton(
+                    onClick = { updateOpenDialog(true) },
+                    shape = RoundedCornerShape(38.dp),
+                    containerColor = Color(72, 111, 126),
+                    contentColor = Color(211, 237, 247),
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .size(86.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+            }
+        }
+        FloatingActionButton(
+            onClick = { updateShowButtons(!uiState.value.showButtons) },
+            shape = RoundedCornerShape(38.dp),
+            containerColor = Color(72, 111, 126),
+            contentColor = Color(211, 237, 247),
+            modifier = Modifier
+                .padding(6.dp)
+                .size(86.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = null,
+                modifier = Modifier.size(40.dp)
+            )
+        }
+    }
 }
