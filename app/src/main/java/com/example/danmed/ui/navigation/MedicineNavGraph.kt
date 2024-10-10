@@ -7,18 +7,24 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.danmed.ui.screens.detailsScreen.DetailsDestination
+import com.example.danmed.ui.screens.detailsScreen.DetailsScreen
+import com.example.danmed.ui.screens.detailsScreen.DetailsScreenViewModel
 import com.example.danmed.ui.screens.editScreen.EditDestination
 import com.example.danmed.ui.screens.editScreen.EditScreen
 import com.example.danmed.ui.screens.editScreen.EditScreenViewModel
 import com.example.danmed.ui.screens.entryScreen.EntryDestination
 import com.example.danmed.ui.screens.entryScreen.EntryScreen
 import com.example.danmed.ui.screens.entryScreen.EntryScreenViewModel
+import com.example.danmed.ui.screens.signInScreen.SignInDestination
+import com.example.danmed.ui.screens.signInScreen.SignInScreen
+import com.example.danmed.ui.screens.signInScreen.SignInViewModel
+import com.example.danmed.ui.screens.signUpScreen.SignUpDestination
+import com.example.danmed.ui.screens.signUpScreen.SignUpScreen
+import com.example.danmed.ui.screens.signUpScreen.SignUpViewModel
 import com.example.danmed.ui.screens.startScreen.StartDestination
 import com.example.danmed.ui.screens.startScreen.StartScreen
 import com.example.danmed.ui.screens.startScreen.StartScreenViewModel
-import com.example.danmed.ui.screens.detailsScreen.DetailsDestination
-import com.example.danmed.ui.screens.detailsScreen.DetailsScreen
-import com.example.danmed.ui.screens.detailsScreen.DetailsScreenViewModel
 
 @Composable
 fun MedicineNavHost(
@@ -30,6 +36,23 @@ fun MedicineNavHost(
         startDestination = StartDestination.route,
         modifier = modifier
     ) {
+        composable(route = SignUpDestination.route) {
+            val signUpViewModel = hiltViewModel<SignUpViewModel>()
+            SignUpScreen(
+                viewModel = signUpViewModel,
+                uiState = signUpViewModel.uiState.collectAsState(),
+                navigateToSignIn = { navController.navigate(SignInDestination.route) },
+                navigateToStart = { navController.navigate(StartDestination.route) }
+            )
+        }
+        composable(route = SignInDestination.route) {
+            val signInViewModel = hiltViewModel<SignInViewModel>()
+            SignInScreen(
+                viewModel = signInViewModel,
+                uiState = signInViewModel.uiState.collectAsState(),
+                navigateToSignUp = { navController.navigate(SignUpDestination.route) }
+            )
+        }
         composable(route = StartDestination.route) {
             val startViewModel = hiltViewModel<StartScreenViewModel>()
             StartScreen(

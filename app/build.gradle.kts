@@ -4,6 +4,7 @@ plugins {
 
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -90,6 +91,9 @@ dependencies {
 
     // navigation
     implementation("androidx.navigation:navigation-compose:$navVersion")
+
+    //icons
+    implementation("androidx.compose.material:material-icons-extended:1.7.3")
 }
 
 kapt {

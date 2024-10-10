@@ -6,6 +6,11 @@ import com.example.danmed.db.MedicineDatabase
 import com.example.danmed.db.data.repository.MedicineRepositoryImpl
 import com.example.danmed.db.domain.repository.MedicineDao
 import com.example.danmed.db.domain.repository.MedicineRepository
+import com.example.danmed.firebase.auth.signIn.data.SignInRepositoryImpl
+import com.example.danmed.firebase.auth.signIn.domain.SignInRepository
+import com.example.danmed.firebase.auth.signUp.data.SignUpRepositoryImpl
+import com.example.danmed.firebase.auth.signUp.domain.SignUpRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +31,21 @@ object AppModule {
         MedicineDatabase::class.java,
         "medicine_database"
     ).build()
+
+    @Singleton
+    @Provides
+    fun provideFirebaseDatabase(): FirebaseAuth =
+        FirebaseAuth.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideSignInRepository(): SignInRepository =
+        SignInRepositoryImpl(provideFirebaseDatabase())
+
+    @Singleton
+    @Provides
+    fun provideSignUpRepository(): SignUpRepository =
+        SignUpRepositoryImpl(provideFirebaseDatabase())
 
     @Provides
     fun provideMedicineDao(db: MedicineDatabase): MedicineDao =

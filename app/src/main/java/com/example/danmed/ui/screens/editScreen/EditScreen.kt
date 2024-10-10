@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,12 +16,11 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.danmed.ui.navigation.NavigationDestination
+import com.example.danmed.ui.screens.components.MedicineInputForm
 import com.example.danmed.ui.screens.components.MedicineTopAppBar
 
 object EditDestination : NavigationDestination {
@@ -51,7 +48,6 @@ fun EditScreen(
             viewModel = viewModel,
             uiState = uiState,
             navigateBack = navigateBack,
-            onValueChange = viewModel::updateUiState,
             contentPadding = it
         )
     }
@@ -62,7 +58,6 @@ fun EditBody(
     viewModel: EditScreenViewModel,
     uiState: State<EditScreenViewModel.EditState>,
     navigateBack: () -> Unit,
-    onValueChange: (EditScreenViewModel.EditState) -> Unit,
     contentPadding: PaddingValues
 ) {
     Column(
@@ -81,7 +76,16 @@ fun EditBody(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(16.dp))
-        EditForm(uiState, onValueChange)
+        MedicineInputForm(
+            nameValue = uiState.value.name,
+            onNameValueChange = { viewModel.updateUiState(uiState.value.copy(name = it)) },
+            descValue = uiState.value.description,
+            onDescValueChange = { viewModel.updateUiState(uiState.value.copy(description = it)) },
+            amountValue = uiState.value.amount,
+            onAmountValueChange = { viewModel.updateUiState(uiState.value.copy(amount = it)) },
+            priceValue = uiState.value.price,
+            onPriceValueChange = { viewModel.updateUiState(uiState.value.copy(price = it)) }
+        )
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
@@ -101,63 +105,5 @@ fun EditBody(
             )
         }
         Spacer(modifier = Modifier.height(6.dp))
-    }
-}
-
-@Composable
-fun EditForm(
-    uiState: State<EditScreenViewModel.EditState>,
-    onValueChange: (EditScreenViewModel.EditState) -> Unit
-) {
-    Column {
-        OutlinedTextField(
-            value = uiState.value.name,
-            onValueChange = { onValueChange(uiState.value.copy(name = it)) },
-            label = { Text(text = "Название") },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            ),
-            enabled = true,
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        OutlinedTextField(
-            value = uiState.value.description,
-            onValueChange = { onValueChange(uiState.value.copy(description = it)) },
-            label = { Text(text = "Описание") },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            ),
-            maxLines = 4,
-            enabled = true,
-            singleLine = false
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        OutlinedTextField(
-            value = uiState.value.amount,
-            onValueChange = { onValueChange(uiState.value.copy(amount = it)) },
-            label = { Text(text = "Количество") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.NumberPassword,
-                imeAction = ImeAction.Next
-            ),
-            suffix = { Text(text = "шт.") },
-            enabled = true,
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        OutlinedTextField(
-            value = uiState.value.price,
-            onValueChange = { onValueChange(uiState.value.copy(price = it)) },
-            label = { Text(text = "Цена") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.NumberPassword,
-                imeAction = ImeAction.Done
-            ),
-            suffix = { Text(text = "₽") },
-            enabled = true,
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(12.dp))
     }
 }
