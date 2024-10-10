@@ -35,6 +35,9 @@ fun SignInScreen(
             buttonText = "Войти в аккаунт",
             textButtonText = "Создать аккаунт",
             onTextButtonClick = navigateToSignUp,
+            emailSupportingText = "",
+            passwordSupportingText = "",
+            isError = false,
             contentPadding = contentPadding
         )
     }

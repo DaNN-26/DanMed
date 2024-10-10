@@ -33,12 +33,16 @@ fun SignUpScreen(
             onEmailChange = { viewModel.updateUiState(uiState.value.copy(email = it)) },
             onPassChange = { viewModel.updateUiState(uiState.value.copy(pass = it)) },
             onButtonClick = {
-                viewModel.signUp()
-                navigateToStart()
+                viewModel.onSignUp()
+                if(uiState.value.isNotCorrectInput)
+                    navigateToStart()
             },
             buttonText = "Зарегистрироваться",
             textButtonText = "Уже есть аккаунт?",
             onTextButtonClick = navigateToSignIn,
+            emailSupportingText = "По примеру: example@gmail.com",
+            passwordSupportingText = "Пароль должен содержать 8 и более символов\nПароль должен иметь в себе цифры",
+            isError = uiState.value.isNotCorrectInput,
             contentPadding = contentPadding
         )
     }

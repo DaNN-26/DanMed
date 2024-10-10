@@ -33,7 +33,7 @@ fun MedicineNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = StartDestination.route,
+        startDestination = SignUpDestination.route,
         modifier = modifier
     ) {
         composable(route = SignUpDestination.route) {

@@ -41,6 +41,9 @@ fun Sign(
     buttonText: String,
     textButtonText: String,
     onTextButtonClick: () -> Unit,
+    emailSupportingText: String,
+    passwordSupportingText: String,
+    isError: Boolean,
     contentPadding: PaddingValues
 ) {
     var passVisible by remember { mutableStateOf(false) }
@@ -51,27 +54,36 @@ fun Sign(
         modifier = Modifier
             .fillMaxSize()
             .padding(60.dp)
+            .padding(contentPadding)
     ) {
         OutlinedTextField(
             value = email,
             onValueChange = { onEmailChange(it) },
             label = { Text(text = "Email") },
+            supportingText = {
+                Text(text = emailSupportingText)
+            },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
-            )
+            ),
+            isError = isError
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = pass,
             onValueChange = { onPassChange(it) },
             label = { Text(text = "Пароль") },
+            supportingText = {
+                Text(text = passwordSupportingText)
+            },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
+            isError = isError,
             visualTransformation = if(passVisible) VisualTransformation.None
             else PasswordVisualTransformation(),
             trailingIcon = {
