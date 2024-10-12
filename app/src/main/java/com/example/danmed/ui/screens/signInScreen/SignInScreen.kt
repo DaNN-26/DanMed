@@ -16,7 +16,8 @@ object SignInDestination : NavigationDestination {
 fun SignInScreen(
     viewModel: SignInViewModel,
     uiState: State<SignInViewModel.SignInState>,
-    navigateToSignUp: () -> Unit
+    navigateToSignUp: () -> Unit,
+    navigateToStart: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -31,13 +32,17 @@ fun SignInScreen(
             pass = uiState.value.pass,
             onEmailChange = { viewModel.updateUiState(uiState.value.copy(email = it)) },
             onPassChange = { viewModel.updateUiState(uiState.value.copy(pass = it)) },
-            onButtonClick = viewModel::signIn,
+            onButtonClick = {
+                viewModel.signIn()
+                if(uiState.value.isIncorrectUser)
+                    navigateToStart()
+            },
             buttonText = "Войти в аккаунт",
             textButtonText = "Создать аккаунт",
             onTextButtonClick = navigateToSignUp,
             emailSupportingText = "",
             passwordSupportingText = "",
-            isError = false,
+            isError = uiState.value.isIncorrectUser,
             contentPadding = contentPadding
         )
     }

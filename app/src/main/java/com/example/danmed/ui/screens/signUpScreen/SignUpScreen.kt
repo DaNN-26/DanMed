@@ -1,6 +1,9 @@
 package com.example.danmed.ui.screens.signUpScreen
 
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import com.example.danmed.ui.navigation.NavigationDestination
@@ -32,18 +35,30 @@ fun SignUpScreen(
             pass = uiState.value.pass,
             onEmailChange = { viewModel.updateUiState(uiState.value.copy(email = it)) },
             onPassChange = { viewModel.updateUiState(uiState.value.copy(pass = it)) },
-            onButtonClick = {
-                viewModel.onSignUp()
-                if(uiState.value.isNotCorrectInput)
-                    navigateToStart()
-            },
+            onButtonClick = viewModel::signUp,
             buttonText = "Зарегистрироваться",
             textButtonText = "Уже есть аккаунт?",
             onTextButtonClick = navigateToSignIn,
             emailSupportingText = "По примеру: example@gmail.com",
             passwordSupportingText = "Пароль должен содержать 8 и более символов\nПароль должен иметь в себе цифры",
-            isError = uiState.value.isNotCorrectInput,
+            isError = uiState.value.isIncorrectInput,
             contentPadding = contentPadding
         )
+
+        if(uiState.value.isSuccessfulSignUp)
+            AlertDialog(
+                onDismissRequest = {},
+                confirmButton = {
+                    TextButton(onClick = navigateToStart) {
+                        Text(text = "Ок")
+                    }
+                },
+                title = {
+                    Text(text = "Успешная регистрация")
+                },
+                text = {
+                    Text(text = "Поздравляем, вы успешно прошли регистрацию!")
+                }
+            )
     }
 }

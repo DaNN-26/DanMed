@@ -50,7 +50,8 @@ fun MedicineNavHost(
             SignInScreen(
                 viewModel = signInViewModel,
                 uiState = signInViewModel.uiState.collectAsState(),
-                navigateToSignUp = { navController.navigate(SignUpDestination.route) }
+                navigateToSignUp = { navController.navigate(SignUpDestination.route) },
+                navigateToStart = { navController.navigate(StartDestination.route) }
             )
         }
         composable(route = StartDestination.route) {
