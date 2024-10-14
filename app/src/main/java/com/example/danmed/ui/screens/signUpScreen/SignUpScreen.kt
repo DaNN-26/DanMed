@@ -6,6 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.ui.platform.LocalContext
+import com.example.danmed.shared.saveAuthState
 import com.example.danmed.ui.navigation.NavigationDestination
 import com.example.danmed.ui.screens.components.MedicineTopAppBar
 import com.example.danmed.ui.screens.components.Sign
@@ -22,6 +24,8 @@ fun SignUpScreen(
     navigateToSignIn: () -> Unit,
     navigateToStart: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             MedicineTopAppBar(
@@ -49,7 +53,10 @@ fun SignUpScreen(
             AlertDialog(
                 onDismissRequest = {},
                 confirmButton = {
-                    TextButton(onClick = navigateToStart) {
+                    TextButton(onClick = {
+                        saveAuthState(context, true, uiState.value.email)
+                        navigateToStart()
+                    }) {
                         Text(text = "Ок")
                     }
                 },

@@ -1,6 +1,10 @@
 package com.example.danmed.ui.screens.components
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +21,10 @@ import androidx.compose.ui.unit.dp
 fun MedicineTopAppBar(
     title: String,
     canNavigateBack: Boolean,
+    isStartScreen: Boolean = false,
+    isAvailableItemsClicked: Boolean = false,
+    onAccountIconClick: () -> Unit = {},
+    onAvailableItemsClick: () -> Unit = {},
     navigateBack: () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
@@ -28,6 +36,25 @@ fun MedicineTopAppBar(
                         imageVector = Icons.Rounded.ArrowBack,
                         contentDescription = null
                     )
+                }
+            }
+            if(isStartScreen) {
+                Row {
+                    IconButton(onClick = onAccountIconClick) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(onClick = onAvailableItemsClick) {
+                        Icon(
+                            imageVector = if(!isAvailableItemsClicked)
+                                Icons.Default.CheckCircleOutline
+                            else
+                                Icons.Filled.CheckCircle,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         },

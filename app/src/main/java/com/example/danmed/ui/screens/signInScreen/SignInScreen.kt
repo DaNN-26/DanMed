@@ -1,8 +1,13 @@
 package com.example.danmed.ui.screens.signInScreen
 
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.ui.platform.LocalContext
+import com.example.danmed.shared.saveAuthState
 import com.example.danmed.ui.navigation.NavigationDestination
 import com.example.danmed.ui.screens.components.MedicineTopAppBar
 import com.example.danmed.ui.screens.components.Sign
@@ -19,6 +24,8 @@ fun SignInScreen(
     navigateToSignUp: () -> Unit,
     navigateToStart: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             MedicineTopAppBar(
@@ -45,5 +52,24 @@ fun SignInScreen(
             isError = uiState.value.isIncorrectUser,
             contentPadding = contentPadding
         )
+
+        if(uiState.value.isSuccessfulSignIn)
+            AlertDialog(
+                onDismissRequest = {},
+                confirmButton = {
+                    TextButton(onClick = {
+                        saveAuthState(context, true, uiState.value.email)
+                        navigateToStart()
+                    }) {
+                        Text(text = "Ок")
+                    }
+                },
+                title = {
+                    Text(text = "Успешный вход")
+                },
+                text = {
+                    Text(text = "Поздравляем, вы успешно вошли в аккаунт!")
+                }
+            )
     }
 }

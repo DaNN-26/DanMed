@@ -1,6 +1,17 @@
 package com.example.danmed.ui.screens.startScreen
 
+import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +25,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,12 +36,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.danmed.db.domain.model.Medicine
+import com.example.danmed.shared.getEmail
+import com.example.danmed.shared.saveAuthState
 import com.example.danmed.ui.navigation.NavigationDestination
 import com.example.danmed.ui.screens.components.MedicineTopAppBar
 
@@ -39,15 +61,35 @@ object StartDestination : NavigationDestination {
 }
 @Composable
 fun StartScreen(
+    viewModel: StartScreenViewModel,
+    navigateToSignUp: () -> Unit,
     navigateToEntry: () -> Unit,
     navigateToDetails: (Int) -> Unit,
     uiState: State<StartScreenViewModel.StartState>
 ) {
+    val context = LocalContext.current
+    var isSideMenuOpen by remember { mutableStateOf(false) }
+    var isAvailableItemsClicked by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             MedicineTopAppBar(
                 title = StartDestination.title,
-                canNavigateBack = false
+                canNavigateBack = false,
+                isStartScreen = true,
+                isAvailableItemsClicked= isAvailableItemsClicked,
+                onAccountIconClick = {
+                    isSideMenuOpen = !isSideMenuOpen
+                },
+                onAvailableItemsClick = {
+                    if(!isAvailableItemsClicked){
+                        viewModel.getAvailableMedicines()
+                        isAvailableItemsClicked = true
+                    } else {
+                        viewModel.getAllMedicines()
+                        isAvailableItemsClicked = false
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -67,12 +109,41 @@ fun StartScreen(
                 )
             }
         }
-    ){
-        StartBody(
-            uiState = uiState,
-            navigateToDetails = navigateToDetails,
-            contentPadding = it
-        )
+    ){ contentPadding ->
+        BoxWithConstraints {
+            val parentWidth = this.maxWidth / 1.7f
+            val parentHeight = this.maxHeight
+
+            StartBody(
+                uiState = uiState,
+                navigateToDetails = navigateToDetails,
+                contentPadding = contentPadding
+            )
+            AnimatedVisibility(
+                visible = isSideMenuOpen,
+                enter = slideIn(spring(0.9f)) {
+                    IntOffset(-500, 0)
+                } + fadeIn(tween(300)),
+                exit = slideOut(tween(400)) {
+                    IntOffset(-500, 0)
+                } + fadeOut(tween(700))
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(
+                            width = parentWidth,
+                            height = parentHeight
+                        )
+                        .shadow(12.dp)
+                ) {
+                    SidePanel(context, contentPadding) {
+                        viewModel.signOut()
+                        saveAuthState(context, false, "")
+                        navigateToSignUp()
+                    }
+                }
+            }
+        }
     }
 }
 @Composable
@@ -137,5 +208,31 @@ fun MedicineItem(
             fontSize = 16.sp,
             modifier = modifier.padding(horizontal = 4.dp)
         )
+    }
+}
+
+@Composable
+fun SidePanel(
+    context: Context,
+    contentPadding: PaddingValues,
+    onButtonClick: () -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.weight(1f).padding(contentPadding)
+        ) {
+            Text(text = "Email", fontWeight = FontWeight.Bold)
+            Text(text = getEmail(context))
+        }
+        Button(onClick = onButtonClick) {
+            Text(text = "Выйти", fontSize = 18.sp)
+        }
+        Spacer(modifier = Modifier.height(18.dp))
     }
 }

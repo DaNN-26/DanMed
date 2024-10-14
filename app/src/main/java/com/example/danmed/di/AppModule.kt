@@ -8,6 +8,8 @@ import com.example.danmed.db.domain.repository.MedicineDao
 import com.example.danmed.db.domain.repository.MedicineRepository
 import com.example.danmed.firebase.auth.signIn.data.SignInRepositoryImpl
 import com.example.danmed.firebase.auth.signIn.domain.SignInRepository
+import com.example.danmed.firebase.auth.signOut.data.SignOutRepositoryImpl
+import com.example.danmed.firebase.auth.signOut.domain.SignOutRepository
 import com.example.danmed.firebase.auth.signUp.data.SignUpRepositoryImpl
 import com.example.danmed.firebase.auth.signUp.domain.SignUpRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +23,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Singleton
     @Provides
     fun provideMedicineDatabase(
@@ -47,10 +48,17 @@ object AppModule {
     fun provideSignUpRepository(): SignUpRepository =
         SignUpRepositoryImpl(provideFirebaseDatabase())
 
+    @Singleton
+    @Provides
+    fun provideSignOutRepository(): SignOutRepository =
+        SignOutRepositoryImpl(provideFirebaseDatabase())
+
+    @Singleton
     @Provides
     fun provideMedicineDao(db: MedicineDatabase): MedicineDao =
         db.getMedicineDao()
 
+    @Singleton
     @Provides
     fun provideMedicineRepository(dao: MedicineDao): MedicineRepository =
         MedicineRepositoryImpl(dao)

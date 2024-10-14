@@ -19,7 +19,6 @@ class DetailsScreenViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
     init {
         getMedicine(DetailsDestination.argId)
-
     }
     @Suppress("SENSELESS_COMPARISON")
     private fun getMedicine(id: Int) {

@@ -1,12 +1,15 @@
 package com.example.danmed.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.danmed.shared.isUserLoggedIn
 import com.example.danmed.ui.screens.detailsScreen.DetailsDestination
 import com.example.danmed.ui.screens.detailsScreen.DetailsScreen
 import com.example.danmed.ui.screens.detailsScreen.DetailsScreenViewModel
@@ -31,6 +34,17 @@ fun MedicineNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val context = remember { navController.context}
+
+    LaunchedEffect(Unit) {
+        if(isUserLoggedIn(context)) {
+            navController.navigate(StartDestination.route)
+        }
+        else {
+            navController.navigate(SignUpDestination.route)
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = SignUpDestination.route,
@@ -57,7 +71,9 @@ fun MedicineNavHost(
         composable(route = StartDestination.route) {
             val startViewModel = hiltViewModel<StartScreenViewModel>()
             StartScreen(
+                viewModel = startViewModel,
                 uiState = startViewModel.uiState.collectAsState(),
+                navigateToSignUp = { navController.navigate(SignUpDestination.route) },
                 navigateToEntry = { navController.navigate(EntryDestination.route) },
                 navigateToDetails = { id ->
                     navController.navigate(DetailsDestination.route)
