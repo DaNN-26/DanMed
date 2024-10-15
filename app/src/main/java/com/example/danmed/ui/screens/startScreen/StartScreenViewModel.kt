@@ -23,7 +23,6 @@ class StartScreenViewModel @Inject constructor(
 
     init {
         getAllMedicines()
-        getAvailableMedicines()
     }
 
     fun getAllMedicines() {

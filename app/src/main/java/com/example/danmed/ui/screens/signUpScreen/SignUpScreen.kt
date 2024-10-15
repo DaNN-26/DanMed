@@ -1,16 +1,23 @@
 package com.example.danmed.ui.screens.signUpScreen
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.example.danmed.shared.saveAuthState
 import com.example.danmed.ui.navigation.NavigationDestination
 import com.example.danmed.ui.screens.components.MedicineTopAppBar
 import com.example.danmed.ui.screens.components.Sign
+import kotlinx.coroutines.delay
 
 object SignUpDestination : NavigationDestination {
     override val route = "sign_up"
@@ -67,5 +74,37 @@ fun SignUpScreen(
                     Text(text = "Поздравляем, вы успешно прошли регистрацию!")
                 }
             )
+        if(uiState.value.isUserExists) {
+            Snackbar(
+                modifier = Modifier
+                    .padding(contentPadding)
+                    .padding(16.dp),
+            ) {
+                Text(text = "Пользователь с таким email уже существует")
+            }
+        }
+        if(uiState.value.isUserExists)
+            UserExistSnackbar(
+                viewModel = viewModel,
+                contentPadding = contentPadding
+            )
+    }
+}
+
+@Composable
+fun UserExistSnackbar(
+    viewModel: SignUpViewModel,
+    contentPadding: PaddingValues
+) {
+    Snackbar(
+        modifier = Modifier
+            .padding(contentPadding)
+            .padding(16.dp),
+    ) {
+        Text(text = "Пользователь с таким email уже существует")
+    }
+    LaunchedEffect(Unit) {
+        delay(3000)
+        viewModel.updateIsUserExists(false)
     }
 }

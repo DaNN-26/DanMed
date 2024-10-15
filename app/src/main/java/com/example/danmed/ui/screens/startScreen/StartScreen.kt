@@ -26,6 +26,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -225,14 +226,32 @@ fun SidePanel(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.weight(1f).padding(contentPadding)
+            modifier = Modifier
+                .weight(1f)
+                .padding(contentPadding)
         ) {
-            Text(text = "Email", fontWeight = FontWeight.Bold)
-            Text(text = getEmail(context))
+            Text(
+                text = "Email",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = getEmail(context),
+                fontSize = 18.sp
+            )
         }
-        Button(onClick = onButtonClick) {
-            Text(text = "Выйти", fontSize = 18.sp)
+        Button(
+            onClick = onButtonClick,
+            colors = ButtonDefaults.buttonColors(Color(72, 111, 126))
+        ) {
+            Text(
+                text = "Выйти",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(211, 237, 247)
+            )
         }
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
