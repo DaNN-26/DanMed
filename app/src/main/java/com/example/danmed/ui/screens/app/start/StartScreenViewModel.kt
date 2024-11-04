@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens.startScreen
+package com.example.danmed.ui.screens.app.start
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

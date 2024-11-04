@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens.entryScreen
+package com.example.danmed.ui.screens.app.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,31 +12,44 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EntryScreenViewModel @Inject constructor(
+class EditScreenViewModel @Inject constructor(
     private val repository: MedicineRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(EntryState())
+    private val _uiState = MutableStateFlow(EditState())
     val uiState = _uiState.asStateFlow()
-
-    fun updateUiState(state: EntryState) {
-        _uiState.value = state
+    init {
+        getMedicine(EditDestination.argId)
     }
-
-    fun insertMedicine() {
+    private fun getMedicine(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertNewMedicine(uiState.value.toMedicine())
+          repository.getMedicine(id).collect {
+              _uiState.value = EditState(
+                  name = it.name,
+                  description = it.description,
+                  amount = "${it.amount}",
+                  price = "${it.price}"
+              )
+          }
         }
     }
-
-    private fun EntryState.toMedicine(): Medicine =
+    fun updateMedicine() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateMedicine(uiState.value.toMedicine())
+        }
+    }
+    fun updateUiState(state: EditState) {
+        _uiState.value = state
+    }
+    private fun EditState.toMedicine(): Medicine =
         Medicine(
+            id = id,
             name = name,
             description = description,
             amount = amount.toInt(),
             price = price.toInt()
         )
-
-    data class EntryState(
+    data class EditState(
+        val id: Int = EditDestination.argId,
         val name: String = "",
         val description: String = "",
         val amount: String = "",

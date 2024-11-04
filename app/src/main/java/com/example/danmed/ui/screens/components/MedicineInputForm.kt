@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 
 @Composable
 fun MedicineInputForm(
@@ -49,7 +50,10 @@ fun MedicineInputForm(
         Spacer(modifier = Modifier.height(12.dp))
         OutlinedTextField(
             value = amountValue,
-            onValueChange = { onAmountValueChange(it) },
+            onValueChange = {
+                if(it.isDigitsOnly())
+                    onAmountValueChange(it)
+            },
             label = { Text(text = "Количество") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.NumberPassword,
@@ -62,7 +66,10 @@ fun MedicineInputForm(
         Spacer(modifier = Modifier.height(12.dp))
         OutlinedTextField(
             value = priceValue,
-            onValueChange = { onPriceValueChange(it) },
+            onValueChange = {
+                if(it.isDigitsOnly())
+                    onPriceValueChange(it)
+            },
             label = { Text(text = "Цена") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.NumberPassword,

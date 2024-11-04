@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens.signUpScreen
+package com.example.danmed.ui.screens.auth.signUp
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -51,7 +51,7 @@ fun SignUpScreen(
             textButtonText = "Уже есть аккаунт?",
             onTextButtonClick = navigateToSignIn,
             emailSupportingText = "По примеру: example@gmail.com",
-            passwordSupportingText = "Пароль должен содержать 8 и более символов\nПароль должен иметь в себе цифры",
+            passwordSupportingText = "Пароль должен содержать 6 и более символов",
             isError = uiState.value.isIncorrectInput,
             contentPadding = contentPadding
         )

@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens.signUpScreen
+package com.example.danmed.ui.screens.auth.signUp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens.signInScreen
+package com.example.danmed.ui.screens.auth.signIn
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold

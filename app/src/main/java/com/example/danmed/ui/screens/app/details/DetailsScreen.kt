@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens.detailsScreen
+package com.example.danmed.ui.screens.app.details
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.spring

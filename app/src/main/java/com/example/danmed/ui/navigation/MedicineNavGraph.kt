@@ -1,7 +1,6 @@
 package com.example.danmed.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -10,44 +9,39 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.danmed.shared.isUserLoggedIn
-import com.example.danmed.ui.screens.detailsScreen.DetailsDestination
-import com.example.danmed.ui.screens.detailsScreen.DetailsScreen
-import com.example.danmed.ui.screens.detailsScreen.DetailsScreenViewModel
-import com.example.danmed.ui.screens.editScreen.EditDestination
-import com.example.danmed.ui.screens.editScreen.EditScreen
-import com.example.danmed.ui.screens.editScreen.EditScreenViewModel
-import com.example.danmed.ui.screens.entryScreen.EntryDestination
-import com.example.danmed.ui.screens.entryScreen.EntryScreen
-import com.example.danmed.ui.screens.entryScreen.EntryScreenViewModel
-import com.example.danmed.ui.screens.signInScreen.SignInDestination
-import com.example.danmed.ui.screens.signInScreen.SignInScreen
-import com.example.danmed.ui.screens.signInScreen.SignInViewModel
-import com.example.danmed.ui.screens.signUpScreen.SignUpDestination
-import com.example.danmed.ui.screens.signUpScreen.SignUpScreen
-import com.example.danmed.ui.screens.signUpScreen.SignUpViewModel
-import com.example.danmed.ui.screens.startScreen.StartDestination
-import com.example.danmed.ui.screens.startScreen.StartScreen
-import com.example.danmed.ui.screens.startScreen.StartScreenViewModel
+import com.example.danmed.ui.screens.app.details.DetailsDestination
+import com.example.danmed.ui.screens.app.details.DetailsScreen
+import com.example.danmed.ui.screens.app.details.DetailsScreenViewModel
+import com.example.danmed.ui.screens.app.edit.EditDestination
+import com.example.danmed.ui.screens.app.edit.EditScreen
+import com.example.danmed.ui.screens.app.edit.EditScreenViewModel
+import com.example.danmed.ui.screens.app.entry.EntryDestination
+import com.example.danmed.ui.screens.app.entry.EntryScreen
+import com.example.danmed.ui.screens.app.entry.EntryScreenViewModel
+import com.example.danmed.ui.screens.app.start.StartDestination
+import com.example.danmed.ui.screens.app.start.StartScreen
+import com.example.danmed.ui.screens.app.start.StartScreenViewModel
+import com.example.danmed.ui.screens.auth.signIn.SignInDestination
+import com.example.danmed.ui.screens.auth.signIn.SignInScreen
+import com.example.danmed.ui.screens.auth.signIn.SignInViewModel
+import com.example.danmed.ui.screens.auth.signUp.SignUpDestination
+import com.example.danmed.ui.screens.auth.signUp.SignUpScreen
+import com.example.danmed.ui.screens.auth.signUp.SignUpViewModel
 
 @Composable
 fun MedicineNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    val context = remember { navController.context}
-
-    LaunchedEffect(Unit) {
-        if(isUserLoggedIn(context)) {
-            navController.navigate(StartDestination.route)
-        }
-        else {
-            navController.navigate(SignUpDestination.route)
-        }
-    }
+    val context = remember { navController.context }
 
     NavHost(
         navController = navController,
-        startDestination = SignUpDestination.route,
+        startDestination =
+        if(isUserLoggedIn(context))
+            StartDestination.route
+        else
+            SignUpDestination.route,
         modifier = modifier
     ) {
         composable(route = SignUpDestination.route) {

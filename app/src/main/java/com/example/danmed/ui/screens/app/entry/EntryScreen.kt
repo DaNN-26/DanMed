@@ -1,4 +1,4 @@
-package com.example.danmed.ui.screens.entryScreen
+package com.example.danmed.ui.screens.app.entry
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
